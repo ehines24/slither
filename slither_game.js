@@ -7,17 +7,19 @@ const create_canvas = (width, height) => function() {
     }
 };
 const draw_grid = (ctx, width, height, divFactor = 10) => {
+    // CSS colors are supported here
+    // Stroke styles can be used with format strings to programmatically change throughout a for loop
     ctx.strokeStyle = "#FFFFFF";
     console.log("here");
     let grid = new Path2D();
     console.log("Here too!");
     for(let i = 10; i < width; i+=divFactor) {
-       grid.moveTo(i,0);
-       grid.lineTo(i,height);
+       grid.moveTo(i+.5,0);
+       grid.lineTo(i+.5,height);
     }
     for(let j = 10; j < height; j+=divFactor) {
-       grid.moveTo(0,j);
-       grid.lineTo(width,j);
+       grid.moveTo(0,j+.5);
+       grid.lineTo(width,j+.5);
     }
     ctx.stroke(grid);
 };
