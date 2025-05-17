@@ -4,11 +4,19 @@ const create_canvas = (width, height) => function() {
         const ctx = canvas.getContext("2d");
         ctx.fillRect(0,0,width,height);
         draw_grid(ctx, width, height);
+        ctx.shadowOffsetX = 2;
+        ctx.shadowOffsetY = 2;
+        ctx.shadowBlur = 2;
+        ctx.fillStyle = "purple";
+        ctx.shadowColor = "rgb(0 0 0 / 50%)";
+        ctx.font = "48px sans-serif";
+        ctx.fillText("Slither", 250, 48);
     }
 };
 const draw_grid = (ctx, width, height, divFactor = 10) => {
     // CSS colors are supported here
     // Stroke styles can be used with format strings to programmatically change throughout a for loop
+    // Or you can use the CanvasGradient object
     ctx.strokeStyle = "#FFFFFF";
     console.log("here");
     let grid = new Path2D();
