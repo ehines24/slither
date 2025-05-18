@@ -1,3 +1,16 @@
+/*
+Transformation matrix
+a c e 
+b d f
+0 0 1
+
+a scales horizontally
+b skews horizontally (makes vertical lines angled by b radians)
+c skews vertically (makes horizontal line angled by b radians)
+d scales vertically
+e horizontal moving
+f vertical moving 
+*/
 const create_canvas = (width, height) => function() {
     const canvas = document.getElementById("game");
     if(canvas.getContext) {
