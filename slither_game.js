@@ -11,7 +11,7 @@ d scales vertically
 e horizontal moving
 f vertical moving 
 */
-const create_canvas = (width, height) => function() {
+const create_canvas = (width, height) => {
     const canvas = document.getElementById("game");
     console.log(`The canvas is ${canvas}`);
     if(canvas.getContext) {
@@ -25,6 +25,7 @@ const create_canvas = (width, height) => function() {
         ctx.shadowColor = "rgb(0 0 0 / 50%)";
         ctx.font = "48px sans-serif";
         ctx.fillText("Slither", 250, 48);
+        return ctx;
     };
 };
 const draw_grid = (ctx, width, height, divFactor = 10, startingHeight=60) => {
@@ -49,22 +50,22 @@ const draw_grid = (ctx, width, height, divFactor = 10, startingHeight=60) => {
 };   
 
 
-const loop = () => {
-    const animate_square = (ctx) => () => {
-        ctx.fillStyle = "#FFF";
-        ctx.fillRect(0,60,10,10);
-        ctx.translate(10, 0);     
-        window.requestAnimationFrame(animate_square(ctx));
+const loop = (ctx) => {
+    const animate_square = () => {
+        console.log("Executing the next frame of animation.");
+        ctx.fillRect(0,60+x,10,10);
+        x += 10;
+        window.requestAnimationFrame(animate_square);
     };   
-    const canvas = document.getElementById("game");
-    console.log(`The canvas is ${canvas}.`)
-    if(canvas.getContext) {
-        const ctx = document.getContext("2d");
-        ctx.fillRect(0,60,10,10);
-        window.requestAnimationFrame(animate_square(ctx));
-    }
+    ctx.fillStyle = "#FFF";
+    let x = 0;
+    window.requestAnimationFrame(animate_square);
 }
 
-window.onload = create_canvas(640,480);
-console.log("The canvas was created.");
-loop();
+const main = () => {
+    const ctx = create_canvas(640,480);
+    console.log("The canvas was created.");
+    loop(ctx);
+}
+
+window.onload = main;
