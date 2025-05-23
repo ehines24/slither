@@ -25,6 +25,8 @@ const create_canvas = (width, height) => {
         ctx.shadowColor = "rgb(0 0 0 / 50%)";
         ctx.font = "48px sans-serif";
         ctx.fillText("Slither", 250, 48);
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
         return ctx;
     };
 };
@@ -50,15 +52,29 @@ const draw_grid = (ctx, width, height, divFactor = 10, startingHeight=60) => {
 };   
 
 
-const loop = (ctx) => {
+const loop = (ctx, width = 640, height=480) => {
     const animate_square = () => {
         console.log("Executing the next frame of animation.");
-        ctx.fillRect(0,60+x,10,10);
-        x += 10;
+        ctx.fillRect(0+x,60+y,10,10);
+        if (x > width || x < 0) {
+            mvmt_factor = -mvmt_factor;
+            y+=Math.abs(mvmt_factor);
+            console.log(width+mvmt_factor);
+            ctx.fillRect(x+mvmt_factor*2, 60+y, 10,10);
+            y+=Math.abs(mvmt_factor);
+
+        }
+        if (y > height) {
+            return;
+        }
+        x += mvmt_factor; 
+        ctx.restore();
         window.requestAnimationFrame(animate_square);
     };   
     ctx.fillStyle = "#FFF";
+    let mvmt_factor = 10;
     let x = 0;
+    let y = 0;
     window.requestAnimationFrame(animate_square);
 }
 
