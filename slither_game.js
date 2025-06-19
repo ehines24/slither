@@ -51,31 +51,42 @@ const draw_grid = (ctx, width, height, divFactor = 10, startingHeight=60) => {
     ctx.stroke(grid);
 };   
 
-
+/**
+     * The future location of the gameplay loop function.
+     * 
+     * @param {CanvasRenderingContext2D} ctx - The canvas context for the gameplay loop.
+     * @param {Int} width - The width of the canvas to draw to. 
+     * @param {Int} height - The height of the canvas to draw to.
+     * @returns {null}
+     */
 const loop = (ctx, width = 640, height=480) => {
-    const animate_square = () => {
-        console.log("Executing the next frame of animation.");
+    /**
+     * Basic animation where the snake moves from left to right on the screen. 
+     * 
+     * @returns {null}
+     */ 
+    const basic_animate_snake = () => {
         ctx.fillRect(0+x,60+y,10,10);
-        if (x > width || x < 0) {
+        // Keep the snake on screen
+        if (x > width-10 || x < 0) {
             mvmt_factor = -mvmt_factor;
             y+=Math.abs(mvmt_factor);
-            console.log(width+mvmt_factor);
-            ctx.fillRect(x+mvmt_factor*2, 60+y, 10,10);
+            intermediate_x = x < 0 ? x+10 : x-10;
+            ctx.fillRect(intermediate_x, 60+y, 10,10);
             y+=Math.abs(mvmt_factor);
-
         }
         if (y > height) {
             return;
         }
         x += mvmt_factor; 
         ctx.restore();
-        window.requestAnimationFrame(animate_square);
+        window.requestAnimationFrame(basic_animate_snake);
     };   
     ctx.fillStyle = "#FFF";
     let mvmt_factor = 10;
     let x = 0;
     let y = 0;
-    window.requestAnimationFrame(animate_square);
+    window.requestAnimationFrame(basic_animate_snake);
 }
 
 const main = () => {
