@@ -11,6 +11,13 @@ d scales vertically
 e horizontal moving
 f vertical moving 
 */
+/**
+ * This function sets up the background and title block for the slither game.
+ * 
+ * @param {Number} width - The width of the canvas to draw on. 
+ * @param {Number} height - The height of the canvas to draw on. 
+ * @returns 
+ */
 const create_canvas = (width, height) => {
     const canvas = document.getElementById("game");
     console.log(`The canvas is ${canvas}`);
@@ -30,21 +37,29 @@ const create_canvas = (width, height) => {
         return ctx;
     };
 };
-const draw_grid = (ctx, width, height, divFactor = 10, startingHeight=60) => {
+/**
+ * Draw a grid onto a canvas with a given width, height, and lineSpacing, and starting height. 
+ * 
+ * @param {CanvasRenderingContext2D} ctx - The canvas context to render the grid on.
+ * @param {Number} width - Width of the canvas that we are rendering the grid on
+ * @param {Number} height - Height of the canvas that we are rendering the grid on. 
+ * @param {*} lineSpacing - Into what pieces of equal size should we space out the lines.
+ * @param {*} startingHeight - Allows for a banner to take up the first chunk of the canvas.
+ */
+const draw_grid = (ctx, width, height, lineSpacing = 10, startingHeight=60) => {
     // CSS colors are supported here
     // Stroke styles can be used with format strings to programmatically change throughout a for loop
     // Or you can use the CanvasGradient object
     ctx.strokeStyle = "#FFFFFF";
     ctx.fillStyle = "#AAA";
-    console.log("here");
     ctx.fillRect(0,0, width, startingHeight);
     let grid = new Path2D();
-    console.log("Here too!");
-    for(let i = 0; i < width; i+=divFactor) {
-       grid.moveTo(i+.5, startingHeight);
-       grid.lineTo(i+.5,height);
+    for(let i = 0; i < width; i+=lineSpacing) {
+       // Align the stroke edges with the pixel boundaries by adding 0.5
+       grid.moveTo(i+0.5, startingHeight);
+       grid.lineTo(i+0.5,height);
     }
-    for(let j = startingHeight; j < height; j+=divFactor) {
+    for(let j = startingHeight; j < height; j+=lineSpacing) {
        grid.moveTo(0,j+.5);
        grid.lineTo(width,j+.5);
     }
@@ -91,7 +106,6 @@ const loop = (ctx, width = 640, height=480) => {
 
 const main = () => {
     const ctx = create_canvas(640,480);
-    console.log("The canvas was created.");
     loop(ctx);
 }
 
