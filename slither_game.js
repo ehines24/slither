@@ -16,7 +16,7 @@ f vertical moving
  * 
  * @param {Number} width - The width of the canvas to draw on. 
  * @param {Number} height - The height of the canvas to draw on. 
- * @returns 
+ * @returns {{ ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement }}
  */
 const create_canvas = (width, height) => {
     const canvas = document.getElementById("game");
@@ -34,7 +34,7 @@ const create_canvas = (width, height) => {
         ctx.fillText("Slither", 250, 48);
         ctx.shadowOffsetX = 0;
         ctx.shadowOffsetY = 0;
-        return ctx;
+        return { ctx, canvas };
     };
 };
 /**
@@ -97,6 +97,7 @@ const loop = (ctx, width = 640, height=480) => {
         ctx.restore();
         window.requestAnimationFrame(basic_animate_snake);
     };   
+
     ctx.fillStyle = "#FFF";
     let mvmt_factor = 10;
     let x = 0;
@@ -105,7 +106,8 @@ const loop = (ctx, width = 640, height=480) => {
 }
 
 const main = () => {
-    const ctx = create_canvas(640,480);
+    const { ctx, canvas } = create_canvas(640,480);
+    console.log(ctx);
     loop(ctx);
 }
 
